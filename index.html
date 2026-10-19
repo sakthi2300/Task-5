@@ -1,0 +1,88 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js CI/CD Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px #0001;
+        }
+
+        h1 {
+            color: #2563eb;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Node.js CI/CD Demo</h1>
+        <p>Test your deployed Node.js API.</p>
+
+        <button onclick="checkHome()">Test Home API</button>
+        <button onclick="checkHealth()">Check Health</button>
+
+        <p id="result">Click a button to test the API.</p>
+    </div>
+
+    <script>
+        // Replace this with your deployed Render URL.
+        const API_URL = "https://your-service.onrender.com";
+
+        async function callAPI(endpoint) {
+            const result = document.getElementById("result");
+            result.textContent = "Loading...";
+
+            try {
+                const response = await fetch(API_URL + endpoint);
+
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+
+                const data = await response.text();
+                result.textContent = "Response: " + data;
+            } catch (error) {
+                result.textContent = "Error: " + error.message;
+            }
+        }
+
+        function checkHome() {
+            callAPI("/");
+        }
+
+        function checkHealth() {
+            callAPI("/health");
+        }
+    </script>
+</body>
+</html>
+```
